@@ -1,3 +1,5 @@
+
+
 #ifndef FTRACTOL_H
 #define FTRACTOL_H
 
@@ -12,6 +14,9 @@
 
 #define WEIDTH 800
 #define HEIGTH 800
+#define ZOOM_FACTOR 0.9
+#define MOVE_FACTOR 0.1
+
 
 typedef struct s_complex
 {
@@ -35,13 +40,21 @@ typedef struct s_fifi
     void *mlx_win;
     t_img img;
     int max_it;
+    double min_real;
+    double max_real;
+    double min_img;
+    double max_img;
     double shift_x;
     double shift_y;
+
 }t_fifi;
 
 void put_error();
 int parcing(int ac, char *av[]);
-double map(int px, double min_real, double max_real, int size);
+double map_x(int px ,t_fifi *data);
+double map_y(int py, t_fifi *data);
+double map_col(int px, double min_real, double max_real, int size);
+
 // double map_y(int py, double min_imag, double max_imag);
 // typedef struct s_data
 // {

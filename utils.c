@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:00:31 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/20 21:50:57 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:17:13 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ int parcing(int ac, char *av[])
     return(-1);
 }
 
-double map(int px, double min_real, double max_real, int size)
+double map_x(int px, t_fifi *data)
+{
+    return data->min_real + px * (data->max_real - data->min_real) / WEIDTH;
+}
+double map_col(int px, double min_real, double max_real, int size)
 {
     return min_real + px * ((max_real - min_real) / size);
 }
 
-double map_y(int py, double min_imag, double max_imag)
+double map_y(int py, t_fifi *data)
 {
-    return max_imag - py * (max_imag - min_imag) / HEIGHT;
+    return data->max_img - py * (data->max_img - data->min_img) / HEIGHT;
 }
