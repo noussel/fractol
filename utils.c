@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:00:31 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/21 14:17:13 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:47:37 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int parcing(int ac, char *av[])
         if((ft_atoi(av[2]) < -1 || ft_atoi(av[2]) > 1) 
         || (ft_atoi(av[3]) < -1 || ft_atoi(av[3]) > 1))
         {
-            ft_putstr_fd("<Im> and <Re> invalid", 2);
+            ft_putstr_fd("<Re> and <Im> invalid", 2);
             exit(1);
         }
         else

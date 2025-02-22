@@ -17,6 +17,8 @@
 #define ZOOM_FACTOR 0.9
 #define MOVE_FACTOR 0.1
 
+#define WIDTH 800
+#define HEIGHT 800
 
 typedef struct s_complex
 {
@@ -46,6 +48,10 @@ typedef struct s_fifi
     double max_img;
     double shift_x;
     double shift_y;
+    double j_x;
+    double j_y;
+    double zoom;
+    int func;
 
 }t_fifi;
 
