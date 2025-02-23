@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:56:55 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/22 21:36:27 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:02:12 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,42 +115,6 @@ void color_screen(t_fifi *data, int color)
     // mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0, 0);
 }
 
-int press_mouse(int button, t_fifi *data)
-{
-    if (!data || !data->mlx_ptr )
-    {
-        printf("ERROR: data, mlx_ptr, mlx_win, or img.img_ptr is NULL\n");
-        exit(0);
-        return (0);
-    }
-    printf("Mouse pressed: %d\n", button);
-    printf("old zoom: %f\n", data->zoom);
-    // Rest of the code...
-
-    if(button == Button5)
-    {
-        data->zoom *= 0.95;
-        printf("New zoom: %f\n", data->zoom);
-    }
-
-    else if (button == Button4)
-    {
-        data->zoom *= 1.05;
-        // printf("New zoom: %f\n", data->zoom);
-    }
-     mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
-    data->img.img_ptr = mlx_new_image(data->mlx_ptr, 800, 800);
-    if (!data->img.img_ptr)
-    {
-        printf("ERROR: mlx_new_image failed\n");
-        return (0);
-    }
-    data->img.img_pxl_ptr = mlx_get_data_addr(data->img.img_ptr, &data->img.b_p_p, &data->img.line_len, &data->img.endian);
-
-    color_screen(data, 0x000000);
-    mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0, 0);
-    return 0;
-}
 int press_x(t_fifi *data)
 {
     error(data);
@@ -173,6 +137,7 @@ int press_key(int keysym, t_fifi *data)
         data->max_img = 2.5;
         data->shift_x = 0;
         data->shift_y = 0;
+        data->zoom = 1;
         data->max_it = 50;
         
     }
@@ -199,30 +164,23 @@ int press_key(int keysym, t_fifi *data)
     }
     else if (keysym == XK_Left)
     {
-        data->shift_x -= 0.5;
+        data->shift_x -= data->zoom;
     }
     else if (keysym == XK_Right)
     {
-        data->shift_x += 0.5;
+        data->shift_x += data->zoom;
     }
     else if (keysym == XK_Up)
     {
-        data->shift_y += 0.5;
+        data->shift_y += data->zoom;
     }
     else if (keysym == XK_Down)
     {
-        data->shift_y -= 0.5;
+        data->shift_y -= data->zoom;
     }
     color_screen(data, 0x000000);
     mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0, 0);
     return (0);
-}
-void hooks_init(t_fifi *data)
-{
-    mlx_hook(data->mlx_win, KeyPress, KeyPressMask, press_key, data);
-    mlx_hook(data->mlx_win, ButtonPress, ButtonPressMask, press_mouse, data);
-    mlx_hook(data->mlx_win, 17, 0, press_x, data);
-
 }
 void data_init(t_fifi *data)
 {
@@ -255,6 +213,51 @@ void data_init(t_fifi *data)
     
 }
 
+int press_mouse(int button, int x, int y, t_fifi *data)
+{
+    if (!data || !data->mlx_ptr)
+    {
+        printf("ERROR: data, mlx_ptr, or img.img_ptr is NULL\n");
+        exit(0);
+        return (0);
+    }
+
+    printf("Mouse pressed: %d at (%d, %d)\n", button, x, y);
+
+    // Définir le facteur de zoom
+    // double zoom_factor = (button == Button5) ? 0.95 : 1.05;
+    if(button == Button5)
+    {
+        data->zoom = data->zoom * 0.95;
+    }
+    else if(button == Button4)
+    {
+        data->zoom = data->zoom * 1.05;
+    }
+
+
+    mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+    data->img.img_ptr = mlx_new_image(data->mlx_ptr, WEIDTH, HEIGTH);
+    if (!data->img.img_ptr)
+    {
+        printf("ERROR: mlx_new_image failed\n");
+        return (0);
+    }
+    data->img.img_pxl_ptr = mlx_get_data_addr(data->img.img_ptr, &data->img.b_p_p, &data->img.line_len, &data->img.endian);
+
+    color_screen(data, 0x000000);
+    mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0, 0);
+
+    return 0;
+}
+void hooks_init(t_fifi *data)
+{
+    mlx_hook(data->mlx_win, KeyPress, KeyPressMask, press_key, data);
+    mlx_hook(data->mlx_win, ButtonPress, ButtonPressMask, press_mouse, data);
+    mlx_hook(data->mlx_win, 17, 0, press_x, data);
+
+}
+
 int main(int ac, char *av[])
 {
     t_fifi data;
@@ -265,8 +268,8 @@ int main(int ac, char *av[])
     data.max_img = 1.5;
     data.max_it = 50;
     data.zoom = 1;
-    // data.shift_x = 0;  
-    // data.shift_y = 0;  
+    data.shift_x = 0;  
+    data.shift_y = 0;  
     // data.mlx_ptr = NULL;
     // data.mlx_win = NULL;
     // data.img.img_ptr = NULL;
@@ -283,9 +286,15 @@ int main(int ac, char *av[])
 
     data_init(&data);
 
-    
+        
     hooks_init(&data);
 
+    if(!data.mlx_ptr)
+    {
+        
+        printf("mlx makaynach \n"); 
+    }
+       
 	mlx_loop(data.mlx_ptr);
 
 
