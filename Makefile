@@ -1,6 +1,6 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
-SRC = fractol.c utils.c
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+SRC = fractol.c utils.c key_hook.c init.c
 NAME = fractol
 LIB = -lmlx -lXext -lX11
 

@@ -1,52 +1,103 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_hook.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 21:41:01 by nel-khad          #+#    #+#             */
+/*   Updated: 2025/02/26 21:41:55 by nel-khad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-typedef struct s_mlx_data
+int	press_x(t_fifi *data)
 {
-	void *mlx_ptr;
-	void *mlx_win;
-} t_mlx_data;
-
-
-void color_screen(t_mlx_data *data, int color)
-{
-
+	error(data);
+	return (0);
 }
 
-int press_key(int keysym, t_mlx_data *data)
+void	wich_key(int keysym, int *color, t_fifi *data)
 {
-    if(keysym == XK_Escape)
-    {
-        printf("The %d key (ESC) has been pressed\n\n", keysym);
-        mlx_destroy_window(data->mlx_ptr, data->mlx_win);
-        mlx_destroy_display(data->mlx_ptr);
-        free(data->mlx_ptr);
-        exit(1);
-    }
-    else if (keysym == XK_g)
-    {
-        color_screen(data, encode_rgb(255, 0, 0));
-    }
-    else if(keysym == XK_g)
-    {
-        color_screen(data, encode_rgb(0, 0xff, 0));
-    }
-    else if (keysym == XK_b)
-    {
-        color_screen(data, encode_rgb(0, 0, 0xff));
-    }
-    printf("The %d key has been pressed\n\n", keysym);
-
-    return (0);
+	if (keysym == XK_p)
+		*color = 0xf4c2c2;
+	else if (keysym == XK_g)
+		*color = 0x00ff00;
+	else if (keysym == XK_b)
+		*color = 0x000000;
+	else if (keysym == XK_KP_Add)
+		data->max_it += 10;
+	else if (keysym == XK_minus)
+		data->max_it -= 10;
+	else if (keysym == XK_Left)
+		data->shift_x -= data->zoom;
+	else if (keysym == XK_Right)
+		data->shift_x += data->zoom;
+	else if (keysym == XK_Up)
+		data->shift_y += data->zoom;
+	else if (keysym == XK_Down)
+		data->shift_y -= data->zoom;
 }
 
-int main()
+void	reset(t_fifi *data)
 {
-    t_mlx_data data;
+	data->min_real = -1.5;
+	data->max_real = 2.5;
+	data->min_img = -3;
+	data->max_img = 2;
+	data->shift_x = 0;
+	data->shift_y = 0;
+	data->zoom = 1;
+	data->max_it = 50;
+}
 
-    data.mlx_ptr = mlx_init();//if(!ptr)
-    data.mlx_win = mlx_new_window(data.mlx_ptr, 600, 600, "hello prety !");//if(!)
+// keysym??
+int	press_key(int keysym, t_fifi *data)
+{
+	int	color;
 
-    mlx_key_hook(data.mlx_win, press_key, &data);
-    mlx_loop(data.mlx_ptr);
+	color = 0x000000;
+	if (keysym == XK_Escape)
+	{
+		error(data);
+	}
+	else if (keysym == XK_r)
+	{
+		reset(data);
+	}
+	else
+	{
+		wich_key(keysym, &color, data);
+	}
+	color_screen(data, color);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0,
+		0);
+	return (0);
+}
 
+int	press_mouse(int button, int x, int y, t_fifi *data)
+{
+	printf("Mouse: %d at (%d, %d)\n", button, x, y);
+	if (button == Button5)
+	{
+		data->zoom = data->zoom * 0.95;
+	}
+	else if (button == Button4)
+	{
+		data->zoom = data->zoom * 1.05;
+	}
+	mlx_destroy_image(data->mlx_ptr, data->img.img_ptr);
+	data->img.img_ptr = mlx_new_image(data->mlx_ptr, WEIDTH, HEIGTH);
+	if (!data->img.img_ptr)
+	{
+		printf("ERROR: mlx_new_image failed\n");
+		return (0);
+	}
+	data->img.img_pxl_ptr = mlx_get_data_addr(data->img.img_ptr,
+			&data->img.b_p_p, &data->img.line_len, &data->img.endian);
+	color_screen(data, 0x000000);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img.img_ptr, 0,
+		0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:38:52 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/22 21:10:54 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:11:10 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,5 @@ double	ft_atoi(const char *str)
 		pow /= 10;
 		dub += (*str++ - 48) * pow;
 	}
-	if (*str != '\0')
-		return(-5);
 	return ( (nb + dub) * sign);
 }

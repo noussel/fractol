@@ -60,24 +60,15 @@ int parcing(int ac, char *av[]);
 double map_x(int px ,t_fifi *data);
 double map_y(int py, t_fifi *data);
 double map_col(int px, double min_real, double max_real, int size);
-
-// double map_y(int py, double min_imag, double max_imag);
-// typedef struct s_data
-// {
-//     void *img;
-//     void *addr;
-//     int bits_per_pixel;
-//     int line_length;
-//     int endian;
-// }   t_data;
-
-// // typedef struct s_mlx_data
-// {
-//     void	*mlx_ptr;
-//     void	*win_ptr;
-//     int     color;
-// }               t_mlx_data;
-
-
-
+int press_x(t_fifi *data);
+void wich_key(int keysym, int *color, t_fifi *data);
+void reset(t_fifi *data);
+int press_key(int keysym, t_fifi *data);
+void error(t_fifi *data);
+void my_pixel_put(t_img *img, int x, int y, int color);
+void data_init(t_fifi *data);
+int press_mouse(int button, int x, int y, t_fifi *data);
+void color_screen(t_fifi *data, int color);
+int malderbort(t_fifi *data, int x, int y, int color);
+void julia(t_fifi *data, int x, int y, int color);
 #endif
