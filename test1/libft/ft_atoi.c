@@ -15,9 +15,9 @@
 double	ft_atoi(const char *str)
 {
 	int		sign;
-	double		nb;
-	double		dub;
-	double		pow;
+	double	nb;
+	double	dub;
+	double	pow;
 
 	nb = 0;
 	dub = 0;
@@ -30,12 +30,12 @@ double	ft_atoi(const char *str)
 			sign = -sign;
 	while (*str >= '0' && *str <= '9')
 		nb = nb * 10 + *str++ - '0';
-	if(*str == '.')
+	if (*str == '.')
 		str++;
-	while(*str && *str >= '0' && *str <= '9')
+	while (*str && *str >= '0' && *str <= '9')
 	{
 		pow /= 10;
 		dub += (*str++ - 48) * pow;
 	}
-	return ( (nb + dub) * sign);
+	return ((nb + dub) * sign);
 }

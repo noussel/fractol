@@ -4,7 +4,6 @@ SRC = fractol.c utils.c key_hook.c init.c
 NAME = fractol
 LIB = -lmlx -lXext -lX11
 
-#< first dependenc (.c) @ the target (.o)
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 OBJ = $(SRC:.c=.o)
@@ -30,3 +29,4 @@ clean :
 re : fclean all
 
 .PHONY: all clean fclean re
+.SECONDARY:

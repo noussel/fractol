@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 21:41:01 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/26 21:41:55 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/03/02 17:55:00 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	reset(t_fifi *data)
 	data->max_it = 50;
 }
 
-// keysym??
 int	press_key(int keysym, t_fifi *data)
 {
 	int	color;

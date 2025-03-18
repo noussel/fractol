@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:00:31 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/26 21:37:59 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:13:15 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	put_error(void)
 	ft_putstr_fd("invalid arguments\n", 2);
 	ft_putstr_fd("=> ./fractol <mandelbrot>\n", 2);
 	ft_putstr_fd("=> ./fractol <julia> <Im> <Re>\n", 2);
-	ft_putstr_fd("=> ./fractol <burningship>\n", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -33,7 +32,6 @@ int	parcing(int ac, char *av[])
 				|| ft_atoi(av[3]) > 1) || ft_is_not_dig(av[2])
 			|| ft_is_not_dig(av[3]))
 		{
-			dprintf(1, "%f\n", ft_atoi(av[2]));
 			ft_putstr_fd("<Re> and <Im> invalid", 2);
 			exit(1);
 		}

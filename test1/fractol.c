@@ -6,7 +6,7 @@
 /*   By: nel-khad <nel-khad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:56:55 by nel-khad          #+#    #+#             */
-/*   Updated: 2025/02/26 21:47:20 by nel-khad         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:59:08 by nel-khad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ void	julia(t_fifi *data, int x, int y, int color)
 	c.i = data->j_y;
 	z.real = (map_x(x, data) * data->zoom) + data->shift_x;
 	z.i = (map_y(y, data) * data->zoom) + data->shift_y;
-	while (j < data->max_it) // i < 50 && (z.i < 2 && z.r < 2)
+	while (j < data->max_it)
 	{
 		tmp = z.real * z.real - z.i * z.i + c.real;
 		z.i = 2 * z.real * z.i + c.i;
 		z.real = tmp;
-		if ((z.real * z.real) + (z.i * z.i) > 4.0) //|z|  > 2
+		if ((z.real * z.real) + (z.i * z.i) > 4.0)
 			break ;
 		j++;
 	}
 	if (j == data->max_it)
 		my_pixel_put(&data->img, x, y, color);
 	else
-		my_pixel_put(&data->img, x, y, map_col(j, 0xffffff, 0x000000,
+		my_pixel_put(&data->img, x, y, map_col(j, 0x000000, 0xffffff,
 				data->max_it));
 	return ;
 }
@@ -53,12 +53,12 @@ int	malderbort(t_fifi *data, int x, int y, int color)
 	c.i = (map_y(y, data) * data->zoom) + data->shift_y;
 	z.real = 0;
 	z.i = 0;
-	while (j < data->max_it) // i < 50 && (z.i < 2 && z.r < 2)
+	while (j < data->max_it)
 	{
 		tmp = z.real * z.real - z.i * z.i + c.real;
 		z.i = 2 * z.real * z.i + c.i;
 		z.real = tmp;
-		if ((z.real * z.real) + (z.i * z.i) > 4.0) //|z|  > 2
+		if ((z.real * z.real) + (z.i * z.i) > 4.0)
 			break ;
 		j++;
 	}
@@ -74,7 +74,7 @@ void	hooks_init(t_fifi *data)
 {
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, press_key, data);
 	mlx_hook(data->mlx_win, ButtonPress, ButtonPressMask, press_mouse, data);
-	mlx_hook(data->mlx_win, 17, 0, press_x, data);//17 0
+	mlx_hook(data->mlx_win, DestroyNotify, 0, press_x, data);
 }
 
 int	main(int ac, char *av[])
